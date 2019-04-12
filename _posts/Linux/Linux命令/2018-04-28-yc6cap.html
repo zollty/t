@@ -1,0 +1,8 @@
+---
+layout: post
+publishTime: 2018-04-28
+category: Linux
+tags: Linux命令
+---
+
+<div style="border:1px solid #3c763d; padding:0 8px; margin:0 -8px;" onclick="$('#v6v24z').fadeToggle(100);"><p><strong>题干=</strong></p><p>Linux中，查找/tmp/sure目录下，且包含password字符的所有文件，并删除它们。</p></div><div id="v6v24z" style="display:none;border:1px solid #317090; border-top-color:#aabaaa; padding:0 8px; margin:0 -4px;"><p><strong>答案=</strong></p><p>grep&nbsp;-lr &quot;password&quot;&nbsp;/tmp/sure/&nbsp;|&nbsp;xargs&nbsp;rm&nbsp;-rf</p><p style='line-height: 1;'><br/></p></div><div style="border:1px solid #3c763d; padding:0 8px; margin:0 -8px;" onclick="$('#v8k8cc').fadeToggle(100);"><p><strong>题干=</strong></p><p>Linux，test.txt文件中有多条记录，找出这个文件中没有重复行的记录。</p></div><div id="v8k8cc" style="display:none;border:1px solid #317090; border-top-color:#aabaaa; padding:0 8px; margin:0 -4px;"><p><strong>答案=</strong></p><p>查找非重复行</p><p>sort&nbsp;file&nbsp;|uniq&nbsp;-u</p><p>查找重复行</p><p>sort&nbsp;file&nbsp;|uniq&nbsp;-d</p><p>去除重复行</p><p>sort&nbsp;file&nbsp;|uniq</p><p>统计</p><p>sort&nbsp;file&nbsp;|&nbsp;uniq&nbsp;-c</p><p style='line-height: 1;'><br/></p></div>

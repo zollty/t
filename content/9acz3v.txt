@@ -1,0 +1,1 @@
+<p><strong>题干=</strong><br/></p><p>有四个整数： a，b，c、d，互不相等，可以是 -1 ~ 100，但如果等于-1则是无效数字，写程序找出它们中最小的且有效的那一个。</p><p>例如：16，40，-1，158，最小有效数字为16</p><p><strong>分析=</strong></p><p>将这些整数放到一个数组中，然后一次for循环，如下：</p><p>min=Integer.MAX_VALUE;</p><p>for(i=0;i&lt;len;i++)</p><p>{</p><p>&nbsp; &nbsp; if(a[i]!=-1 &amp;&amp; min&gt;a[i]) min=a[i];</p><p>}</p><p>即可找出最小的数字。</p><p><br/></p>

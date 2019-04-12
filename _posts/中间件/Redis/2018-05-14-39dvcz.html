@@ -1,0 +1,8 @@
+---
+layout: post
+publishTime: 2018-05-14
+category: 中间件
+tags: Redis
+---
+
+<div style="border:1px solid #3c763d; padding:0 8px; margin:0 -8px;" onclick="$('#c5x88c').fadeToggle(100);"><p><strong>题干=</strong></p><p>说说redis实现分布式锁的方案？</p></div><div id="c5x88c" style="display:none;border:1px solid #317090; border-top-color:#aabaaa; padding:0 8px; margin:0 -4px;"><p><strong>答案=</strong></p><p>网上有非常成熟的方案。比如Redlock：<a href="https://www.oschina.net/translate/redis-distlock">https://www.oschina.net/translate/redis-distlock</a></p><p>最简单的方法如下：</p><p>使用Redis锁住资源的最简单的方法是创建一对key-value值。利用Redis的超时机制，key被创建为有一定的生存期，因此它最终会被释放。而当客户端想要释放时，直接删除key就行了。</p><p>一般来说这工作得很好，但有个问题: 这是系统的一个单点。如果Redis主节点挂了呢？当然，我们可以加个子节点，主节点出问题时可以切换过来。不过很可惜，这种方案不可行，因为Redis的主-从复制是异步的，我们无法用其实现互斥的安全特性。</p><p style='line-height: 1;'><br/></p></div>

@@ -1,0 +1,19 @@
+---
+layout: post
+publishTime: 2018-05-14
+category: 中间件
+tags: Redis
+---
+
+<div style="border:1px solid #3c763d; padding:0 8px; margin:0 -8px;" onclick="$('#kz6y42').fadeToggle(100);"><p><strong>题干=</strong></p><p>如何解决缓存被“击穿”（缓存雪崩）的问题？</p><p>（缓存雪崩：缓存在某个时间点过期的时候，恰好在这个时间点对这个Key有大量的并发请求过来，这些请求发现缓存过期一般都会从后端DB加载数据并回设到缓存，这个时候大并发的请求可能会瞬间把后端DB压垮）</p></div><div id="kz6y42" style="display:none;border:1px solid #317090; border-top-color:#aabaaa; padding:0 8px; margin:0 -4px;"><p><strong>答案=</strong></p><p>（参见&nbsp;<a href="http://huoding.com/2015/09/14/463">http://huoding.com/2015/09/14/463</a>）</p><p>业界比较常用的做法，是使用缓存的分布式锁机制。简单地来说，就是在缓存失效的时候（判断拿出来的值为空），不是立即去load db，而是先使用缓存分布式锁先加锁，当操作返回成功时，再进行load db的操作并回设缓存；否则，就重试整个get缓存的方法。类似下面的代码：</p><pre class="brush:php;toolbar:false">&lt;?php
+$ok&nbsp;=&nbsp;$redis-&gt;set($key,&nbsp;$random,&nbsp;array(&#39;nx&#39;,&nbsp;&#39;ex&#39;&nbsp;=&gt;&nbsp;30000));
+if&nbsp;($ok)&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;$cache-&gt;update();
+&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;($redis-&gt;get($key)&nbsp;==&nbsp;$random)&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$redis-&gt;del($key);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+}&nbsp;else&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;sleep(50);
+&nbsp;&nbsp;&nbsp;&nbsp;thisMethod($key);&nbsp;//&nbsp;丢归当前方法重试
+}
+?&gt;</pre><p>注：命令为：<span style="color: rgb(192, 0, 0);">SET resource_name my_random_value NX PX 30000</span>，这条指令将设置key的值，仅当其不存在时生效(NX选项), 且设置其生存期为30000毫秒(PX选项)。和key关联的value值是&quot;my_random_value&quot;。这个值在所有客户端和所有加锁请求中是必须是唯一的。</p><p style='line-height: 1;'><br/></p></div>

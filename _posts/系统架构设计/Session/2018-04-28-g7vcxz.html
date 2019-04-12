@@ -1,0 +1,8 @@
+---
+layout: post
+publishTime: 2018-04-28
+category: 系统架构设计
+tags: Session
+---
+
+<div style="border:1px solid #3c763d; padding:0 8px; margin:0 -8px;" onclick="$('#xvaua6').fadeToggle(100);"><p><strong>题干=</strong></p><p>在集群环境使用Session有哪些方案？</p></div><div id="xvaua6" style="display:none;border:1px solid #317090; border-top-color:#aabaaa; padding:0 8px; margin:0 -4px;"><p><strong>答案=</strong></p><p>1. Session复制（jboss、tomcat、websphere等服务器都支持配置）</p><p>2. Session粘滞（比如nginx的ip_hash）</p><p>3. 利用cookie同步session（例如OSChina网站、百度某些网站等等很多就是这么做的）</p><p>4. 用数据库存储session（一般不推荐这么做）</p><p>5. 分布式集群Session共享（spring有个子项目spring-session配合redis来支持，另外tomcat也有redis和memcached相关的插件来支持session共享）</p><p>参见：<a href="http://www.cnblogs.com/interdrp/p/4056525.html">http://www.cnblogs.com/interdrp/p/4056525.html</a> </p><p style='line-height: 1;'><br/></p></div>

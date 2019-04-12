@@ -1,0 +1,8 @@
+---
+layout: post
+publishTime: 2018-05-09
+category: 数据库
+tags: 数据库
+---
+
+<div style="border:1px solid #3c763d; padding:0 8px; margin:0 -8px;" onclick="$('#9vv5c7').fadeToggle(100);"><p><strong>题干=</strong></p><p>数据库规范中，为什么不建议使用函数（特别是一些高级的函数）？</p></div><div id="9vv5c7" style="display:none;border:1px solid #317090; border-top-color:#aabaaa; padding:0 8px; margin:0 -4px;"><p><strong>答案=</strong></p><p>我想可能是基于下面几个原因：</p><p>1）数据库很可能成为整个应用的性能瓶颈，应当减轻数据库的压力。数据库主要功能是存储数据，而对数据进行组织和计算，则建议交给应用程序去完成，这样能释放数据库的CPU资源，减轻数据库压力。</p><p>2）减少对特殊数据库、特殊函数的依赖，以便能够对存储的数据进行调整，比如调整表甚至换其他数据库，如果数据库只充当简单的数据存储的功能，那么数据库和应用的耦合性就低。</p><p>3）降低数据库的维护成本，如果使用各种数据库的高级功能，势必需要小心，不但增加了运维维护数据库的成本，同时后期开发人员维护SQL也相当麻烦，因为维护SQL比维护Java代码要难得多。Java代码直接打断点，打日志很方面调试，复杂SQL只能借助PL/SQL等IDE去调试了。</p><p style='line-height: 1;'><br/></p></div>

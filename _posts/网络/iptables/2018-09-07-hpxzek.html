@@ -1,0 +1,19 @@
+---
+layout: post
+publishTime: 2018-09-07
+category: 网络
+tags: iptables
+---
+
+<div style="border:1px solid #3c763d; padding:0 8px; margin:0 -8px;" onclick="$('#2zzqx8').fadeToggle(100);"><p><strong>题干=</strong></p><p>什么是NAT（Network Address Translation，网络地址转换），有什么作用，怎么配置？</p><p>什么是DNAT和SNAT？</p></div><div id="2zzqx8" style="display:none;border:1px solid #317090; border-top-color:#aabaaa; padding:0 8px; margin:0 -4px;"><p><strong>答案=</strong></p><p>自行百度。</p><p>或参见：<a href="https://baike.baidu.com/item/nat/320024">https://baike.baidu.com/item/nat/320024</a></p><p style='line-height: 1;'><br/></p></div><div style="border:1px solid #3c763d; padding:0 8px; margin:0 -8px;" onclick="$('#v43e2x').fadeToggle(100);"><p><strong>题干=</strong></p><p>iptables是什么，它具体有哪些功能，怎么配置？</p><p style='line-height: 1;'><br/></p></div><div id="v43e2x" style="display:none;border:1px solid #317090; border-top-color:#aabaaa; padding:0 8px; margin:0 -4px;"><p><strong>答案=</strong></p><p>iptables 是 Linux 上默认的防火墙软件，在大部分发行版中都自带。</p><p>功能1：配置ip转发策略，例如下例</p><pre class="brush:plain;toolbar:false">$&nbsp;sudo&nbsp;iptables&nbsp;-nL
+...
+Chain&nbsp;FORWARD&nbsp;(policy&nbsp;ACCEPT)
+target&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;prot&nbsp;opt&nbsp;source&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;destination
+ACCEPT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tcp&nbsp;&nbsp;--&nbsp;&nbsp;172.17.0.2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;172.17.0.3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tcp&nbsp;spt:80
+ACCEPT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tcp&nbsp;&nbsp;--&nbsp;&nbsp;172.17.0.3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;172.17.0.2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tcp&nbsp;dpt:80
+DROP&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;all&nbsp;&nbsp;--&nbsp;&nbsp;0.0.0.0/0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.0.0.0/0</pre><p>功能2：配置NAT（Network Address Translation，网络地址转换）规则，如下例</p><pre class="brush:plain;toolbar:false">$&nbsp;sudo&nbsp;iptables&nbsp;-t&nbsp;nat&nbsp;-nL
+...
+Chain&nbsp;POSTROUTING&nbsp;(policy&nbsp;ACCEPT)
+target&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;prot&nbsp;opt&nbsp;source&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;destination
+MASQUERADE&nbsp;&nbsp;all&nbsp;&nbsp;--&nbsp;&nbsp;172.17.0.0/16&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;!172.17.0.0/16
+...</pre><p style='line-height: 1;'><br/></p></div>

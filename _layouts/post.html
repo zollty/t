@@ -1,0 +1,14 @@
+---
+layout: post-p
+---
+
+{% include sed-header.html %}
+  <div class="post-card">
+
+	{{ content }}
+	{% assign post = page %}
+	{% include inner-tag.html %}
+
+  </div>
+  {% include pager.html %}
+  {% include comments.html %}

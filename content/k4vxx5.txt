@@ -1,0 +1,15 @@
+<p>题干=</p><p>对于HashMap，讲一讲扩容和rehash的过程？</p><p>答案=</p><p>当 内部数组的长度 大于等于 阀值时就会调用resize方法进行扩容，扩容的方式是新建一个长度更长的数组，然后将旧数据拷贝给新的数组，之后可能会重新计算hash位置，最后用新数组替换掉旧数组。</p><p>扩容后，新数组的大小是原来的两倍。</p><pre class="brush:java;toolbar:false">void&nbsp;resize(int&nbsp;newCapacity)&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;Entry[]&nbsp;newTable&nbsp;=&nbsp;new&nbsp;Entry[newCapacity];
+&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;如果initHashSeedAsNeeded为true则会rehash
+&nbsp;&nbsp;&nbsp;&nbsp;transfer(newTable,&nbsp;initHashSeedAsNeeded(newCapacity));&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;table&nbsp;=&nbsp;newTable;
+&nbsp;&nbsp;&nbsp;&nbsp;threshold&nbsp;=&nbsp;(int)Math.min(newCapacity&nbsp;*&nbsp;loadFactor,&nbsp;MAXIMUM_CAPACITY&nbsp;+&nbsp;1);
+}</pre><p><br/></p><p>题干=</p><p>如果我们有1000个元素，new HashMap(1000)是否合适？ HashMap装载因子的作用是什么？</p><p>答案=</p><p>参见如下方法：</p><pre class="brush:java;toolbar:false">//&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;toSize=initialCapacity初始容量
+private&nbsp;void&nbsp;inflateTable(int&nbsp;toSize)&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;Find&nbsp;a&nbsp;power&nbsp;of&nbsp;2&nbsp;&gt;=&nbsp;toSize
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;capacity&nbsp;=&nbsp;roundUpToPowerOf2(toSize);
+
+&nbsp;&nbsp;&nbsp;&nbsp;threshold&nbsp;=&nbsp;(int)&nbsp;Math.min(capacity&nbsp;*&nbsp;loadFactor,&nbsp;MAXIMUM_CAPACITY&nbsp;+&nbsp;1);
+&nbsp;&nbsp;&nbsp;&nbsp;table&nbsp;=&nbsp;new&nbsp;Entry[capacity];
+&nbsp;&nbsp;&nbsp;&nbsp;initHashSeedAsNeeded(capacity);
+}</pre><p>装载因子用于确定HashMap内部数组扩容的阀值（threshold），关系为： threshold = (int) Math.min(capacity * loadFactor, MAXIMUM_CAPACITY + 1);</p><p>即 threadshold = 容量*装载因子。</p><p>比如说，我们有1000个元素new HashMap(1000), 但是理论上来讲new HashMap(1024)更合适，不过即使是1000，HashMap也自动会将其设置为1024。 但是new HashMap(1024)还不是更合适的，因为扩容阀值threshold = 0.75（默认的扩容因子）*1000 =750 &lt; 1000, 也就是说750个元素的时候就会扩容了, 我们必须这样new HashMap(2048)才最合适，既考虑了&amp;的问题（2的次幂），也避免了resize的问题。</p><p><br/></p><p>题干=<br/></p><p>下面这个定义是什么意思？</p><p>new LinkedHashMap&lt;Object, View&gt;(16, 0.75f, true)</p><p>答案=</p><p>LinkedHashMap(<strong>int initialCapacity, float loadFactor, boolean accessOrder</strong>)</p><p>initialCapacity 初始容量大小，使用无参构造方法时，此值默认是16</p><p>loadFactor 加载因子，使用无参构造方法时，此值默认是 0.75f</p><p>accessOrder false： 基于插入顺序 true： 基于访问顺序&nbsp;</p><p>第一个参数为初始容量，第二个为装载因子，第三个为是否使用LRU（最近最少被使用的调度算法），如果为true，则在遍历Map时最近被使用到的元素会排在最前面。</p><p><br/></p><p><strong>题干=</strong><br/></p><p>HashMap 的长度为什么是2的幂次方？</p><p><strong>答案=</strong></p><p>HashMap的哈希函数是采用“取余”的方式来计算hash位置，长度为n的table，对于key值为hash来说，其位置为 hash % n，但是为了提高 取模 运算的效率，可以使用 位运算 来代替，实际上：&nbsp;hash%n == hash&amp;(n-1) 前提是n是2的次幂。</p><p><br/></p>

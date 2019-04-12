@@ -1,0 +1,31 @@
+---
+layout: post
+publishTime: 2019-01-10
+category: 中间件
+tags: [Docker]
+---
+
+<div style="border:1px solid #3c763d; padding:0 8px; margin:0 -8px;" onclick="$('#z74yk9').fadeToggle(100);"><p><strong>题干=</strong></p><p>下面Dockerfile有什么问题？</p><pre class="brush:plain;toolbar:false">FROM&nbsp;ubuntu:14.04
+RUN&nbsp;apt-get&nbsp;update
+RUN&nbsp;apt-get&nbsp;install&nbsp;-y&nbsp;curl&nbsp;nginx</pre></div><div id="z74yk9" style="display:none;border:1px solid #317090; border-top-color:#aabaaa; padding:0 8px; margin:0 -4px;"><p><strong>答案=</strong></p><p>Docker sees the initial and modified instructions as identical and reuses the cache from previous steps. As a result the apt-get update is not executed because the build uses the cached version. Because the apt-get update is not run, your build can potentially get an outdated version of the curl and nginx packages.（即：由于RUN apt-get update层可能被缓存，导致这一句不执行，从而导致apt-get install安装到旧的版本）</p><p>推荐的方法为：</p><p>RUN apt-get update &amp;&amp; apt-get install -y xxx</p><p>官方example如下：<br/></p><pre class="brush:bash;toolbar:false;">RUN&nbsp;apt-get&nbsp;update&nbsp;&amp;&amp;&nbsp;apt-get&nbsp;install&nbsp;-y&nbsp;\
+&nbsp;&nbsp;&nbsp;&nbsp;aufs-tools&nbsp;\
+&nbsp;&nbsp;&nbsp;&nbsp;automake&nbsp;\
+&nbsp;&nbsp;&nbsp;&nbsp;build-essential&nbsp;\
+&nbsp;&nbsp;&nbsp;&nbsp;curl&nbsp;\
+&nbsp;&nbsp;&nbsp;&nbsp;dpkg-sig&nbsp;\
+&nbsp;&nbsp;&nbsp;&nbsp;libcap-dev&nbsp;\
+&nbsp;&nbsp;&nbsp;&nbsp;libsqlite3-dev&nbsp;\
+&nbsp;&nbsp;&nbsp;&nbsp;mercurial&nbsp;\
+&nbsp;&nbsp;&nbsp;&nbsp;reprepro&nbsp;\
+&nbsp;&nbsp;&nbsp;&nbsp;ruby1.9.1&nbsp;\
+&nbsp;&nbsp;&nbsp;&nbsp;ruby1.9.1-dev&nbsp;\
+&nbsp;&nbsp;&nbsp;&nbsp;s3cmd=1.1.*&nbsp;\
+&nbsp;&amp;&amp;&nbsp;rm&nbsp;-rf&nbsp;/var/lib/apt/lists/*</pre><p>The s3cmd argument specifies a version 1.1.*. If the image previously used an older version, specifying the new one causes a cache bust of apt-get update and ensures the installation of the new version. Listing packages on each line can also prevent mistakes in package duplication.</p><p style='line-height: 1;'><br/></p><p>In addition, when you clean up the apt cache by removing /var/lib/apt/lists it reduces the image size, since the apt cache is not stored in a layer. Since the RUN statement starts with apt-get update, the package cache is always refreshed prior to apt-get install.</p><p style='line-height: 1;'><br/></p><p>注意：Official Debian and Ubuntu images automatically run apt-get clean, so explicit invocation is not required.</p><p style='line-height: 1;'><br/></p></div><div style="border:1px solid #3c763d; padding:0 8px; margin:0 -8px;" onclick="$('#zapvky').fadeToggle(100);"><p><strong>题干=</strong></p><p>下面的Dockerfile写法有什么问题？</p><pre class="brush:bash;toolbar:false">FROM&nbsp;alpine
+ENV&nbsp;ADMIN_USER=&quot;mark&quot;
+RUN&nbsp;echo&nbsp;$ADMIN_USER&nbsp;&gt;&nbsp;./mark
+RUN&nbsp;unset&nbsp;ADMIN_USER
+CMD&nbsp;sh</pre></div><div id="zapvky" style="display:none;border:1px solid #317090; border-top-color:#aabaaa; padding:0 8px; margin:0 -4px;"><p><strong>答案=</strong></p><p>由于ENV会新建一层，导致RUN unset无效。正确的写法是，在RUN 中设置临时的环境变量。</p><pre class="brush:bash;toolbar:false">FROM&nbsp;alpine
+RUN&nbsp;export&nbsp;ADMIN_USER=&quot;mark&quot;&nbsp;\
+&nbsp;&nbsp;&nbsp;&nbsp;&amp;&amp;&nbsp;echo&nbsp;$ADMIN_USER&nbsp;&gt;&nbsp;./mark&nbsp;\
+&nbsp;&nbsp;&nbsp;&nbsp;&amp;&amp;&nbsp;unset&nbsp;ADMIN_USER
+CMD&nbsp;sh</pre><p style='line-height: 1;'><br/></p><p style='line-height: 1;'><br/></p></div><div style="border:1px solid #3c763d; padding:0 8px; margin:0 -8px;" onclick="$('#dyx3c7').fadeToggle(100);"><p><strong>题干=</strong></p><p>Dockerfile指令ADD和COPY的区别？</p></div><div id="dyx3c7" style="display:none;border:1px solid #317090; border-top-color:#aabaaa; padding:0 8px; margin:0 -4px;"><p><strong>答案=</strong></p><p>Although ADD and COPY are functionally similar, generally speaking, COPY is preferred. That’s because it’s more transparent than ADD. COPY only supports the basic copying of local files into the container, while ADD has some features (like local-only tar extraction and remote URL support) that are not immediately obvious. Consequently, the best use for ADD is local tar file auto-extraction into the image, as in ADD rootfs.tar.xz /.（即COPY是基础功能，而ADD是COPY的增强版，支持自动解压，从URL读取等）</p><p style='line-height: 1;'><br/></p></div><div style="border:1px solid #3c763d; padding:0 8px; margin:0 -8px;" onclick="$('#8cvzvn').fadeToggle(100);"><p><strong>题干=</strong></p><p>Docker数据持久化中有两种方式，bind mount和volume mount，他们两个的区别是什么？</p></div><div id="8cvzvn" style="display:none;border:1px solid #317090; border-top-color:#aabaaa; padding:0 8px; margin:0 -4px;"><p><strong>答案=</strong></p><p>bind mount会覆盖容器中的文件，而volume mount则不会，即如果容器中已有文件，则将会容器中的文件同步到主机上。</p><p style='line-height: 1;'><br/></p></div>

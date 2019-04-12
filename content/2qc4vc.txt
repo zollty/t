@@ -1,0 +1,16 @@
+<p>题干=</p><p>AMD 和 CMD 的区别，SeaJS 和 RequireJS 的差异有哪些？</p><p>答案=</p><p>作者：玉伯</p><p>链接：https://www.zhihu.com/question/20351507/answer/14859415</p><p>来源：知乎</p><p><br/></p><p>AMD 规范在这里：<a href="https://github.com/amdjs/amdjs-api/wiki/AMD">https://github.com/amdjs/amdjs-api/wiki/AMD</a></p><p>CMD 规范在这里：<a href="https://github.com/seajs/seajs/issues/242">https://github.com/seajs/seajs/issues/242</a></p><p>AMD 是 RequireJS 在推广过程中对模块定义的规范化产出。</p><p>CMD 是 SeaJS 在推广过程中对模块定义的规范化产出。</p><p>类似的还有 CommonJS Modules/2.0 规范，是 BravoJS 在推广过程中对模块定义的规范化产出。</p><p>还有不少⋯⋯</p><p>这些规范的目的都是为了 JavaScript 的模块化开发，特别是在浏览器端的。</p><p>目前这些规范的实现都能达成<strong>浏览器端模块化开发的目的</strong>。</p><p>区别：</p><p>1. 对于依赖的模块，AMD 是<strong>提前执行</strong>，CMD 是<strong>延迟执行</strong>。不过 RequireJS 从 2.0 开始，也改成可以延迟执行（根据写法不同，处理方式不同）。CMD 推崇 as lazy as possible.</p><p>2. CMD 推崇<strong>依赖就近</strong>，AMD 推崇<strong>依赖前置</strong>。看代码：</p><pre class="brush:js;toolbar:false">//&nbsp;CMD
+define(function(require,&nbsp;exports,&nbsp;module)&nbsp;{
+var&nbsp;a&nbsp;=&nbsp;require(&#39;./a&#39;)
+a.doSomething()
+//&nbsp;此处略去&nbsp;100&nbsp;行
+var&nbsp;b&nbsp;=&nbsp;require(&#39;./b&#39;)&nbsp;//&nbsp;依赖可以就近书写
+b.doSomething()
+//&nbsp;...
+})
+//&nbsp;AMD&nbsp;默认推荐的是
+define([&#39;./a&#39;,&nbsp;&#39;./b&#39;],&nbsp;function(a,&nbsp;b)&nbsp;{&nbsp;//&nbsp;依赖必须一开始就写好
+a.doSomething()
+//&nbsp;此处略去&nbsp;100&nbsp;行
+b.doSomething()
+...
+})</pre><p>虽然 AMD 也支持 CMD 的写法，同时还支持将 require 作为依赖项传递，但 RequireJS 的作者默认是最喜欢上面的写法，也是官方文档里默认的模块定义写法。</p><p>3. AMD 的 API 默认是<strong>一个当多个用</strong>，CMD 的 API 严格区分，推崇<strong>职责单一</strong>。比如 AMD 里，require 分全局 require 和局部 require，都叫 require。CMD 里，没有全局 require，而是根据模块系统的完备性，提供 seajs.use 来实现模块系统的加载启动。CMD 里，每个 API 都<strong>简单纯粹</strong>。</p><p>4. 还有一些细节差异，具体看这个规范的定义就好，就不多说了。</p><p>另外，SeaJS 和 RequireJS 的差异，可以参考：<a href="https://github.com/seajs/seajs/issues/277">https://github.com/seajs/seajs/issues/277</a></p><p><br/></p>

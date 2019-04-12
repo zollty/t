@@ -1,0 +1,8 @@
+---
+layout: post
+publishTime: 2018-04-29
+category: 系统架构设计
+tags: 架构理论
+---
+
+<div style="border:1px solid #3c763d; padding:0 8px; margin:0 -8px;" onclick="$('#3ez28c').fadeToggle(100);"><p><strong>题干=</strong></p><p>如何才能产生死锁？（提示：产生死锁的四个必要条件）</p></div><div id="3ez28c" style="display:none;border:1px solid #317090; border-top-color:#aabaaa; padding:0 8px; margin:0 -4px;"><p><strong>答案=</strong></p><p>产生死锁的四个必要条件：</p><ol class=" list-paddingleft-2" style="list-style-type: decimal;"><li><p>互斥条件：所谓互斥就是进程在某一时间内独占资源。</p></li><li><p>请求与保持条件：一个进程因请求资源而阻塞时，对已获得的资源保持不放。（Java中比较常见）</p></li><li><p>不剥夺条件：进程已获得资源，在末使用完之前，不能强行剥夺。（和一类似，只是一针对资源只能被一个使用，三针对使用者不释放资源）</p></li><li><p>循环等待条件：若干进程之间形成一种头尾相接的循环等待资源关系。（在多个独立进程中比较常见）</p></li></ol><p>参见：<a href="http://blog.csdn.net/hijiankang/article/details/9157365">http://blog.csdn.net/hijiankang/article/details/9157365</a> </p><p style='line-height: 1;'><br/></p></div>

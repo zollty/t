@@ -1,0 +1,1 @@
+<p><strong>题干=</strong><br/></p><p>从实际使用的角度（而不是理论）来说，JDK和JRE有哪些区别？</p><p><strong>答案=</strong></p><p>由于JDK包含了JRE以及Development Tools，所以如果只是运行Java程序，用JRE就行了，但是如果想编译、调试、监控Java程序，则需要JDK。常用的编译、调试、监控命令或工具有javac、javadoc、javap、jar、jconsole、jvisualvm、jmc、jstat、jmap。</p><p><br/></p>

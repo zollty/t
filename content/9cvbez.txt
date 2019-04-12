@@ -1,0 +1,62 @@
+<p><strong>题干=</strong><br/></p><p>给出任意一个字符串，统计里面出现次数最多的字符及其出现次数。</p><p><strong>答案=</strong></p><p>JavaScript实现如下：</p><pre class="brush:js;toolbar:false">/**
+&nbsp;*&nbsp;集合的构造函数
+&nbsp;*/
+function&nbsp;Set()&nbsp;{
+&nbsp;&nbsp;/**
+&nbsp;&nbsp;&nbsp;*&nbsp;集合元素的容器，以对象来表示
+&nbsp;&nbsp;&nbsp;*&nbsp;@type&nbsp;{Object}
+&nbsp;&nbsp;&nbsp;*/
+&nbsp;&nbsp;var&nbsp;items&nbsp;=&nbsp;{};
+&nbsp;&nbsp;
+&nbsp;&nbsp;/**
+&nbsp;&nbsp;&nbsp;*&nbsp;存放最大那个元素
+&nbsp;&nbsp;&nbsp;*/
+&nbsp;&nbsp;var&nbsp;max&nbsp;=&nbsp;{};
+&nbsp;&nbsp;max.value&nbsp;=&nbsp;-1;&nbsp;//&nbsp;初始最大值设为-1
+&nbsp;
+&nbsp;/**
+&nbsp;&nbsp;*&nbsp;检测集合内是否有某个元素
+&nbsp;&nbsp;*/
+&nbsp;&nbsp;this.has&nbsp;=&nbsp;function(value)&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;items.hasOwnProperty(value)
+&nbsp;&nbsp;};
+&nbsp;&nbsp;
+&nbsp;&nbsp;this.getMax&nbsp;=&nbsp;function()&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;max;
+&nbsp;&nbsp;};
+&nbsp;&nbsp;
+&nbsp;&nbsp;this.getItems&nbsp;=&nbsp;function()&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;items;
+&nbsp;&nbsp;};
+&nbsp;&nbsp;
+&nbsp;&nbsp;/**
+&nbsp;&nbsp;&nbsp;*&nbsp;给集合内添加某个元素
+&nbsp;&nbsp;&nbsp;*/
+&nbsp;&nbsp;this.add&nbsp;=&nbsp;function(value)&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;//先检测元素是否存在。
+&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;(!this.has(value))&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;items[value]&nbsp;=&nbsp;1;&nbsp;//&nbsp;首次添加，赋值为1
+&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;else&nbsp;{
+		//&nbsp;第n次添加，每次累加1
+		items[value]&nbsp;=&nbsp;items[value]&nbsp;+&nbsp;1;
+	}
+	
+	//&nbsp;判断&nbsp;如果当前值&nbsp;大于&nbsp;max.value，则将max设置为当前值
+	if(items[value]&nbsp;&gt;&nbsp;max.value)&nbsp;{
+		max.value&nbsp;=&nbsp;items[value];
+		max.name&nbsp;=&nbsp;value;
+	}
+&nbsp;&nbsp;};
+
+}
+
+var&nbsp;set&nbsp;=&nbsp;new&nbsp;Set();
+
+var&nbsp;s&nbsp;=&nbsp;&quot;aaaaabbccceeqqqqfffqqqqqq&quot;;
+for(var&nbsp;i=0;&nbsp;i&lt;s.length;&nbsp;i++)&nbsp;{
+	var&nbsp;c&nbsp;=&nbsp;s.charAt(i);
+	set.add(c);&nbsp;//&nbsp;添加到集合中
+}
+
+console.log(set.getItems());
+console.log(set.getMax());&nbsp;//&nbsp;获得最大的那个字符和出现的次数</pre><p><br/></p><p><br/></p>

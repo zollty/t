@@ -1,0 +1,11 @@
+<div class="post-card">
+    {{ post.content }}
+	
+	{% include inner-tag.html %}
+	
+	<p class="pull-right">
+	  <a class="func-a" href="{{ site.baseurl }}{{ post.url }}">查看</a>
+	  <span class="meta">&nbsp;/&nbsp;</span>
+	  <a class="func-a" href="{{ site.baseurl }}{{ post.url }}#ds-thread">评论 </a>
+	</p>
+  </div>

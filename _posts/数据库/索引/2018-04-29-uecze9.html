@@ -1,0 +1,8 @@
+---
+layout: post
+publishTime: 2018-04-29
+category: 数据库
+tags: 索引
+---
+
+<div style="border:1px solid #3c763d; padding:0 8px; margin:0 -8px;" onclick="$('#97evxe').fadeToggle(100);"><p><strong>题干=</strong></p><p>对于MySQL数据库，什么是聚簇索引（clustered index ），什么是二级索引（secondary indexes）？</p></div><div id="97evxe" style="display:none;border:1px solid #317090; border-top-color:#aabaaa; padding:0 8px; margin:0 -4px;"><p><strong>答案=</strong></p><p>mysql中每个表都有一个聚簇索引（clustered index ），除此之外的表上的每个非聚簇索引都是二级索引，又叫辅助索引（secondary indexes）。</p><p>以InnoDB来说，每个InnoDB表具有一个特殊的索引称为聚集索引。如果您的表上定义有主键，该主键索引是聚集索引。如果你不定义为您的表的主键时，MySQL取第一个唯一索引（unique）而且只含非空列（NOT NULL）作为主键，InnoDB使用它作为聚集索引。如果没有这样的列，InnoDB就自己产生一个这样的ID值，它有六个字节，而且是隐藏的，使其作为聚簇索引。</p><p style='line-height: 1;'><br/></p></div><div style="border:1px solid #3c763d; padding:0 8px; margin:0 -8px;" onclick="$('#kc5c2y').fadeToggle(100);"><p><strong>题干=</strong></p><p>什么叫 倒置(排)索引 / 转置索引 / 反向索引（Inverted index）？ 叫法不同，都是同一个意思。</p></div><div id="kc5c2y" style="display:none;border:1px solid #317090; border-top-color:#aabaaa; padding:0 8px; margin:0 -4px;"><p><strong>答案=</strong></p><p>【一般用于搜索引擎，文档索引】一个未经处理的数据库中，一般是以文档ID作为索引，以文档内容作为记录。所以，Inverted index 指的是将单词或记录作为索引，将文档ID作为记录，这样便可以方便地通过单词或记录查找到其所在的文档。</p><p style='line-height: 1;'><br/></p></div>

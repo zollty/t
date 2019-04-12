@@ -1,0 +1,8 @@
+---
+layout: post
+publishTime: 2018-04-29
+category: 未分类
+tags: 二进制
+---
+
+<div style="border:1px solid #3c763d; padding:0 8px; margin:0 -8px;" onclick="$('#z8xkda').fadeToggle(100);"><p><strong>题干=</strong></p><p>为什么说byte的取值范围是+127到—128？-128用二进制怎么表示？</p></div><div id="z8xkda" style="display:none;border:1px solid #317090; border-top-color:#aabaaa; padding:0 8px; margin:0 -4px;"><p><strong>答案=</strong></p><p>一个byte由八个位组成，如00000000，其中，前7位表示数值，第8位是符号位（0为正，1为负）。这样+1就是00000001，-1就是10000001。最大的正数就是0 1111111，即2^0+2^1+……+2^6=127；最小的负数，同理，为1 1111111，即-127。&nbsp;</p><p>到这里应该是许多人不明白的地方，为什么负数会到-128。这不得不崇拜伟大的印度阿三们。</p><p>上述的描述会出现一个问题，就是0，会出现一个+0和一个-0。印度人他们规定-0为-128，这样就与计算机的补码（程序都是按补码运行的）完美的结合在一起。(参见：http://m.blog.csdn.net/article/details?id=52013596)</p><p>以此类推，int，short，long都可以推出他们的取值范围。例如int是32位。</p><p style='line-height: 1;'><br/></p></div>

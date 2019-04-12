@@ -1,0 +1,8 @@
+---
+layout: post
+publishTime: 2018-04-29
+category: 系统架构设计
+tags: 架构理论
+---
+
+<div style="border:1px solid #3c763d; padding:0 8px; margin:0 -8px;" onclick="$('#kueaev').fadeToggle(100);"><p><strong>题干=</strong></p><p>如何合理配置线程池的大小 或者说 如何确定多少个线程是合理的？有什么原则？</p></div><div id="kueaev" style="display:none;border:1px solid #317090; border-top-color:#aabaaa; padding:0 8px; margin:0 -4px;"><p><strong>答案=</strong></p><p>&nbsp;一般需要根据任务的类型来配置线程池大小：&nbsp;</p><p>如果是CPU密集型任务，就需要尽量压榨CPU，参考值可以设为 NCPU+1&nbsp;</p><p>如果是IO密集型任务，参考值可以设置为2*NCPU。</p><p style='line-height: 1;'><br/></p></div>

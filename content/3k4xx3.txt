@@ -1,0 +1,1 @@
+<p>题干=</p><p>出现OOM如何解决？</p><p>答案=</p><ol class=" list-paddingleft-2" style="list-style-type: decimal;"><li><p>可通过命令定期抓取heap dump或者启动参数OOM时自动抓取heap dump文件。</p></li><li><p>通过对比多个heap dump，以及heap dump的内容，分析代码找出内存占用最多的地方。</p></li><li><p>分析占用的内存对象，是否是因为错误导致的内存未及时释放，或者数据过多导致的内存溢出。</p></li></ol><p><br/></p>

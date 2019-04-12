@@ -1,0 +1,8 @@
+---
+layout: post
+publishTime: 2018-04-29
+category: Java与JVM
+tags: [JVM监控及问题排查]
+---
+
+<div style="border:1px solid #3c763d; padding:0 8px; margin:0 -8px;" onclick="$('#6cp6xv').fadeToggle(100);"><p><strong>题干=</strong></p><p>谈谈 jstack 和 jmap 的功能和用法？</p></div><div id="6cp6xv" style="display:none;border:1px solid #317090; border-top-color:#aabaaa; padding:0 8px; margin:0 -4px;"><p><strong>答案=</strong></p><p>jstack [pid] 查看java进程内部的线程信息</p><p>jstack -gcutil [pid] 查看gc情况</p><p>jstack -gcnew 等查看内存区域的情况。</p><p>jmap -heap [pid] 查看堆信息</p><p>jmap -histo [pid] 和 jmap -histo:live [pid] 查看内存中的对象信息。</p><p style='line-height: 1;'><br/></p></div>

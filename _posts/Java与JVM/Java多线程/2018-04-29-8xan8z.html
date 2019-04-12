@@ -1,0 +1,20 @@
+---
+layout: post
+publishTime: 2018-04-29
+category: Java与JVM
+tags: [Java多线程]
+---
+
+<div style="border:1px solid #3c763d; padding:0 8px; margin:0 -8px;" onclick="$('#753kvx').fadeToggle(100);"><p><strong>题干=</strong></p><p>ThreadLocal的作用和原理是什么？</p></div><div id="753kvx" style="display:none;border:1px solid #317090; border-top-color:#aabaaa; padding:0 8px; margin:0 -4px;"><p><strong>答案=</strong></p><p>官网解释：</p><p>This class provides thread-local variables. These variables differ from their normal counterparts in that each thread that accesses one (via its {@code get} or {@code set} method) has its own, independently initialized copy of the variable. &nbsp;{@code ThreadLocal} instances are typically private static fields in classes that wish to associate state with a thread (e.g.,a user ID or Transaction ID)</p><p>翻译过来就是：ThreadLocal类用来提供线程内部的局部变量。这些变量在多线程环境下访问时能保证各个线程里的变量相对独立于其他线程内的变量，ThreadLocal实例通常来说都是private static类型。</p><p>总结：ThreadLocal不是为了解决多线程访问共享变量，而是为每个线程创建一个单独的变量副本，本质原理是<strong>基于Map</strong>的实现。</p><pre class="brush:java;toolbar:false">public&nbsp;T&nbsp;get()&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;Thread&nbsp;t&nbsp;=&nbsp;Thread.currentThread();
+&nbsp;&nbsp;&nbsp;&nbsp;ThreadLocalMap&nbsp;map&nbsp;=&nbsp;getMap(t);
+&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;(map&nbsp;!=&nbsp;null)&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ThreadLocalMap.Entry&nbsp;e&nbsp;=&nbsp;map.getEntry(this);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;(e&nbsp;!=&nbsp;null)&nbsp;{&nbsp;//&nbsp;获取对应ThreadLocal的变量值，不为空则直接返回
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;T&nbsp;result&nbsp;=&nbsp;(T)e.value;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;result;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;若当前线程还未创建ThreadLocalMap，则返回调用initialValue方法创建并返回初始值
+&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;setInitialValue();
+}</pre><p style='line-height: 1;'><br/></p></div><div style="border:1px solid #3c763d; padding:0 8px; margin:0 -8px;" onclick="$('#vxax6d').fadeToggle(100);"><p><strong>题干=</strong></p><p>ThreadLocal有内存泄漏风险吗？</p></div><div id="vxax6d" style="display:none;border:1px solid #317090; border-top-color:#aabaaa; padding:0 8px; margin:0 -4px;"><p><strong>答案=</strong></p><p>在ThreadLocal中，每个thread中都存在一个map, map的类型是ThreadLocal.ThreadLocalMap. Map中的key为一个threadlocal实例. 这个Map的确使用了弱引用,不过弱引用只是针对key. 每个key都弱引用指向threadlocal. 当把threadlocal实例置为null以后,没有任何强引用指向threadlocal实例,所以threadlocal将会被gc回收. 但是,我们的value却不能回收,因为存在一条从current thread连接过来的强引用. 只有当前thread结束以后, current thread就不会存在栈中,强引用断开, Current Thread, Map, value将全部被GC回收。</p><p style='line-height: 1;'><br/></p><p>所以得出一个结论就是只要这个<strong>线程对象被gc</strong>回收，就不会出现内存泄露，但在threadLocal设为null和线程结束这段时间不会被回收的，就发生了我们认为的内存泄露。<span style="text-decoration: underline;"><em>如果存在线程对象不被回收的情况，这就发生了真正意义上的内存泄露。比如使用线程池的时候，线程结束是不会销毁的</em></span>，会再次使用的。就可能出现内存泄露。</p><p style='line-height: 1;'><br/></p></div>

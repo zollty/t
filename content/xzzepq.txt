@@ -1,0 +1,8 @@
+<p>题干=</p><p>下面这个SQL有何问题？ 如果看不出来，可以提示：为什么下面这个SQL会查询出来全是null的行？</p><pre class="brush:sql;toolbar:false">select&nbsp;distinct&nbsp;m.*,(select&nbsp;p.name&nbsp;from&nbsp;fast_menu&nbsp;p&nbsp;where&nbsp;p.id&nbsp;=&nbsp;m.parent_id)&nbsp;as&nbsp;parentName
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;from&nbsp;fast_user_role&nbsp;ur&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LEFT&nbsp;JOIN&nbsp;fast_role_menu&nbsp;rm&nbsp;on&nbsp;ur.role_id&nbsp;=&nbsp;rm.role_id&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LEFT&nbsp;JOIN&nbsp;fast_menu&nbsp;m&nbsp;on&nbsp;rm.menu_id&nbsp;=&nbsp;m.id&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;where&nbsp;ur.user_id&nbsp;=&nbsp;1&nbsp;order&nbsp;by&nbsp;m.order_num&nbsp;asc</pre><p>分析=</p><p>应该是左连接的问题，但是分析起来有些复杂。干脆重新改写如下：</p><pre class="brush:sql;toolbar:false">select&nbsp;m.*,(select&nbsp;p.name&nbsp;from&nbsp;fast_menu&nbsp;p&nbsp;where&nbsp;p.id&nbsp;=&nbsp;m.parent_id)&nbsp;as&nbsp;parentName
+&nbsp;&nbsp;from&nbsp;fast_menu&nbsp;m&nbsp;where&nbsp;m.id&nbsp;in&nbsp;(select&nbsp;distinct&nbsp;rm.menu_id&nbsp;from&nbsp;fast_user_role&nbsp;ur
+&nbsp;&nbsp;LEFT&nbsp;JOIN&nbsp;fast_role_menu&nbsp;rm&nbsp;on&nbsp;ur.role_id&nbsp;=&nbsp;rm.role_id&nbsp;
+where&nbsp;ur.user_id&nbsp;=&nbsp;#{userId})&nbsp;order&nbsp;by&nbsp;m.order_num&nbsp;asc</pre><p>最后一级用了直接根据id，用in查询 更容易理解，distinct放在子查询里面更符合逻辑。</p><p><br/></p><p>题干=</p><p>在标准SQL中，有哪几种join方式，它们的区别是什么？</p><p><br/></p><p><br/></p>

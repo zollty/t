@@ -1,0 +1,1 @@
+<p>题干=</p><p>怎么通过java反射，获取一个私有方法的实例？</p><p>答案=</p><p>Class.getDeclaredMethod(String name, Class&lt;?&gt;... parameterTypes)，</p><p>如果要调用私有方法，需要设置&nbsp;</p><p>method.setAccessible(true)</p><p><br/></p><p><br/></p>

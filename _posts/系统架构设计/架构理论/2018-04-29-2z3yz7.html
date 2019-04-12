@@ -1,0 +1,8 @@
+---
+layout: post
+publishTime: 2018-04-29
+category: 系统架构设计
+tags: 架构理论
+---
+
+<div style="border:1px solid #3c763d; padding:0 8px; margin:0 -8px;" onclick="$('#7eyae9').fadeToggle(100);"><p><strong>题干=</strong></p><p>什么是乐观锁和悲观锁？</p></div><div id="7eyae9" style="display:none;border:1px solid #317090; border-top-color:#aabaaa; padding:0 8px; margin:0 -4px;"><p><strong>答案=</strong></p><p>乐观锁：乐观锁认为竞争不总是会发生，因此它不需要持有锁，将比较-替换这两个动作作为一个原子操作尝试去修改内存中的变量，如果失败则表示发生冲突，那么就应该有相应的重试逻辑。</p><p>悲观锁：悲观锁认为竞争总是会发生，因此每次对某资源进行操作时，都会持有一个独占的锁，就像synchronized，不管三七二十一，直接上了锁就操作资源了。</p><p style='line-height: 1;'><br/></p></div>

@@ -1,0 +1,15 @@
+<p>题干=<br/></p><p>请将下面这段Java代码，用Java 1.8的Stream API来改写。<br/></p><pre class="brush:java;toolbar:false">public&nbsp;Set&lt;String&gt;&nbsp;test(List&lt;String&gt;&nbsp;permsList)&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;Set&lt;String&gt;&nbsp;permsSet&nbsp;=&nbsp;new&nbsp;HashSet&lt;String&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;for&nbsp;(String&nbsp;perms&nbsp;:&nbsp;permsList)&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;(StringUtils.isBlank(perms))&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;continue;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;permsSet.addAll(Arrays.asList(perms.trim().split(&quot;,&quot;)));
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;permsSet;
+}</pre><p>答案=<br/></p><p>如下：<br/></p><pre class="brush:java;toolbar:false">public&nbsp;Set&lt;String&gt;&nbsp;test(List&lt;String&gt;&nbsp;permsList)&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;permsList.stream().
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;filter(StringUtils::isNotBlank).
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;flatMap(line&nbsp;-&gt;Stream.of(line.trim().split(&quot;,&quot;))).
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;collect(Collectors.toSet());
+}</pre><p><br/></p>

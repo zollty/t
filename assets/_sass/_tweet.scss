@@ -1,0 +1,363 @@
+/* define your color & font-size */
+
+$base01: #006699;
+$base02: fuchsia;
+$base03: green;
+$base04: chocolate;
+$base05: cyan;
+$base06: moccasin;
+$base07: #f5f5d5;
+$base08: black;
+$base09: #C7EDCC;
+
+$alpha: 1/6;
+
+$font-size: 16px;
+$line-height: 1;
+
+/* This is base content. */
+
+@mixin sans-serif {
+  font-family: "Helvetica Neue","Helvetica","Microsoft YaHei","WenQuanYi Micro Hei","Hiragino Sans GB",Simsun,Arial,sans-serif;
+}
+
+@mixin code-font {
+  font-family: Menlo,Monaco,Consolas,"Courier New","Microsoft YaHei","WenQuanYi Micro Hei","Hiragino Sans GB",Simsun,Arial,sans-serif;
+}
+
+@mixin text-shadow {
+  text-shadow: 0 1px 0px $base07, 0 1px 1px rgba($base08, $alpha*3);
+}
+
+body {
+  font-size: $font-size;
+  line-height: $line-height * 1.6;
+  color: lighten($base08, 10%);
+  background-color: rgba($base07, $alpha*6);
+  @include sans-serif;
+  * {
+    transition: all .2s;
+  }
+}
+
+a {
+  color: darken($base05, 15%);
+  &:hover, &:focus {
+    color: darken($base05, 30%);
+    text-decoration: none;
+  }
+}
+
+h1 {
+  font-size: $font-size * 2;
+  color: #1363BD;
+}
+
+h2 {
+  font-size: $font-size * 1.75;
+  color: $base04;
+}
+
+h3 {
+  font-size: $font-size * 1.5;
+  color: lighten($base03, 10%);
+}
+
+h4 {
+  font-size: $font-size * 1.375;
+  color: #9E6604;
+}
+
+h5 {
+  font-size: $font-size * 1.25;
+  color: $base01;
+}
+
+h6 {
+  font-size: $font-size * 1.125;
+  color: #000;
+}
+
+h1, h2, h3, h4, h5, h6, strong {
+  line-height: $line-height * 1.8;
+}
+
+hr {
+  border-color: lighten($base03, 10%);
+}
+
+pre {
+  font-size: inherit;
+}
+
+code, kbd, pre, samp {
+  @include code-font;
+}
+
+time.small {
+  font-size: 50%;
+  color: darken($base07, 50% );
+}
+
+.header {
+  display: inline;
+  .title {
+    display: inline;
+    font-size: $font-size * 2;
+    @include text-shadow;
+    a {
+      color: darken($base05, 15%);
+      &:hover, &:focus {
+        color: darken($base05, 30%);
+      }
+    }
+  }
+  ul {
+    li {
+    display: inline-block;
+      margin: 4px 0;
+      a {
+        color: darken($base05, 15%);
+        @include text-shadow;
+        &:hover, &:focus {
+          color: darken($base05, 30%);
+          background-color: transparent;
+        }
+      }
+      form {
+        margin-top: 15px;
+      }
+    }
+  }
+  .navbar-toggle {
+	  background-color: rgba(darken($base05, 15%), $alpha * 5);
+	  &:hover, &:focus {
+		background-color: rgba(darken($base05, 30%), $alpha * 5);
+	  }
+	  .icon-bar {
+		background-color: rgba(darken($base07, 10%), $alpha * 5);
+	  }
+  }
+}
+
+/*
+ * Override Bootstrap's default container.
+ */
+@media (min-width: 1200px) {
+  .container {
+    width: 970px;
+  }
+}
+
+table {
+  max-width: 100%;
+  margin-bottom: 20px;
+  border-collapse: collapse;
+  border: 1px solid rgba(darken($base05, 15%), $alpha * 2);
+  box-shadow: 0 0 3px rgba(darken($base05, 15%), $alpha);
+  &:hover {
+    border: 1px solid rgba(darken($base05, 15%), $alpha * 2);
+    box-shadow: 0 0 8px rgba(darken($base05, 15%), $alpha);
+  }
+  thead tr th {
+    vertical-align: bottom;
+    padding: 8px;
+    color: rgba(lighten($base05, 30%), $alpha * 5);
+    background-color: rgba(darken($base05, 30%), $alpha * 5);
+    border-width: 1px 1px 2px;
+    border-style: solid;
+    border-color: rgba(darken($base05, 15%), $alpha * 2);
+  }
+  tbody tr td {
+    vertical-align: middle;
+    padding: 8px;
+    border: 1px solid rgba(darken($base05, 15%), $alpha * 2);
+	&:hover {
+      background-color: rgba(darken($base05, 20%), $alpha * 2);
+    }
+  }
+  thead > tr {
+    background-color: rgba(darken($base07, 10%), $alpha * 2);
+  }
+  tbody > tr {
+    &:nth-child(2n+1) {
+      background-color: rgba(darken($base05, 15%), $alpha);
+    }
+  }
+  tbody tr {
+    background-color: rgba(darken($base07, 10%), $alpha);
+    &:hover {
+      background-color: rgba(darken($base05, 15%), $alpha * 2);
+    }
+  }
+}
+
+.btn-primary {
+  background-color: rgba(darken($base05, 15%), $alpha * 5);
+  border: 1px solid rgba(darken($base05, 30%), $alpha);
+  &:hover, &:focus {
+    background-color: rgba(darken($base05, 30%), $alpha * 5);
+  }
+}
+.btn-primary.disabled {
+  background-color: rgba(darken($base05, 15%), $alpha * 4);
+  border: 1px solid rgba(darken($base05, 30%), $alpha);
+}
+
+.previous > a, .next > a {
+  color: rgba(darken($base05, 15%), $alpha * 5);
+  &:hover, &:focus {
+    color: rgba(darken($base05, 30%), $alpha * 5);
+  }
+}
+
+img {
+  display: inherit;
+  max-width: 100%;
+  margin: 0 auto;
+  line-height: $line-height*1.4;
+  border-radius: 6px;
+  box-shadow: 0 0 1px $base07, 0 0 6px rgba($base08, $alpha * 3);
+}
+
+.my-footer {
+  padding: 10px 18px 0px 0px;
+  p {
+    color: darken($base07, 50%);
+    a {
+      color: darken($base07, 50%);
+      &:hover, &:focus {
+        color: lighten($base08, 30%);
+      }
+    }
+  }
+}
+
+.post-card {
+  h1, h2, h3, h4, h5, h6, strong {
+    line-height: normal;
+	color: #2C3E50;
+  }
+  border-bottom: 1px solid lighten($base03, 10%);
+  margin-bottom: 15px;
+  padding: 10px 8px 0 10px;
+  background-color: $base09;
+  .meta {
+    font-size: 13px;
+    color: #818181;
+  }
+  a.func-a {
+	&:hover,
+	&:focus {
+	  color: lighten($base03, 10%);
+	}
+  }
+  a.more-a {
+	color: lighten($base03, 10%);
+	&:hover,
+	&:focus {
+	  color: #2ECC71;
+	}
+  }
+  blockquote {
+    display: block;
+	padding: 5px 5px 5px 10px;
+    margin: 0 0 10px;
+	word-break: break-all;
+    word-wrap: break-word;
+    border-color: #f5f5f5;
+	font-size: inherit;
+    background-color: #f5f5f5;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+}
+
+.my-col-wrap {
+  background-color: rgba($base07, $alpha*6);
+  padding-right: 0;
+  padding-left: 0;
+}
+
+.sed-header {
+  border-bottom: 1px solid lighten($base03, 10%);
+  border-left: 1px solid $base09;
+  border-right: 1px solid $base09;
+  background-color: rgba($base07, $alpha*6);
+  .title {
+    padding-left: 12px;
+    font-size: $font-size * 1.5;
+	@include text-shadow;
+  }
+  .top-bar {
+    padding-top: 8px;
+  }
+}
+
+#search-loader {
+  display: none;
+  text-align: center;
+}
+
+.my-pager {
+  background-color: #fff;
+  border-left: 1px solid $base09;
+  border-right: 1px solid $base09;
+  .pager {
+    margin-bottom: -9px;
+    margin-top: -14px;
+	padding-top: 5px;
+    padding-bottom: 6px;
+  }
+}
+
+.r-aside {
+  padding-top: 3px;
+}
+
+.my-comments {
+  background-color: #fff;
+  border-left: 1px solid $base09;
+  border-right: 1px solid $base09;
+  border-bottom: 1px solid $base09;
+}
+
+.my-side-tags {
+  .list-group-item {
+	padding: 3px 5px;
+	.badge {
+	  margin-top: 4px;
+	}
+  }
+}
+
+.my-h3-title {
+  line-height: .8;
+  font-size: 22px;
+}
+
+.my-panel {
+    margin-bottom: 4px;
+}
+
+/* Begin zs-nav */
+.zs-narrow-nav {
+  font-size: 14px;
+  .navbar {
+    min-height: 40px;
+    margin-bottom: 1px;
+  }
+  .navbar-brand {
+    height: 40px;
+    padding-top: 10px;
+  }
+  .navbar-nav>li>a {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+  .navbar-toggle {
+    margin-top: 3px;
+    margin-bottom: 3px;
+  }
+}
+/* End zs-nav */

@@ -1,0 +1,9 @@
+<p>题干=</p><p>Vuex是什么，为什么要用Vuex？<br/></p><p>答案=</p><p>Vuex是Vue官方提供的状态管理库，用来在多个Vue实例中共享和管理数据对象。</p><p>例如官方例子：</p><pre class="brush:js;toolbar:false">const&nbsp;sourceOfTruth&nbsp;=&nbsp;{}
+
+const&nbsp;vmA&nbsp;=&nbsp;new&nbsp;Vue({
+&nbsp;&nbsp;data:&nbsp;sourceOfTruth
+})
+
+const&nbsp;vmB&nbsp;=&nbsp;new&nbsp;Vue({
+&nbsp;&nbsp;data:&nbsp;sourceOfTruth
+})</pre><p>有A和B两个Vue实例，他们要共享一个数据对象 sourceOfTruth，还可能会修改对象，如果不用Vuex，就会有一些麻烦，用了Vuex，就能很好的解决数据在多个组件中的共享和状态变化问题。</p><p><br/></p><p>详细参见：<br/></p><p>1、简单介绍：<a href="https://cn.vuejs.org/v2/guide/state-management.html" target="_blank">https://cn.vuejs.org/v2/guide/state-management.html</a></p><p>2、官方描述：<a href="https://vuex.vuejs.org/zh/" target="_blank">https://vuex.vuejs.org/zh/</a></p><p><br/></p><p>题干=</p><p>说说Vuex中，State、 Getter、Mutation 、Action、 Module的作用？</p><p>答案=</p><p>state =&gt; 基本数据(数据源存放地)</p><p>getters =&gt; 从基本数据派生出来的数据&nbsp;</p><p>mutations =&gt; 提交更改数据的方法，同步执行&nbsp;</p><p>actions =&gt;&nbsp; 类似于 mutation，在mutations基础上增强，使之可以异步执行&nbsp;</p><p>modules =&gt;&nbsp; &nbsp;Vuex模块化，将 store 分割成模块（module）</p><p>参见：<a href="https://vuex.vuejs.org/zh/guide/state.html" target="_blank">https://vuex.vuejs.org/zh/guide/state.html</a></p><p><br/></p><p>题干=<br/></p><p>vue如何实现父子组件通信，以及非父子组件通信？</p><p>答案=</p><p>父子组件通信，前面已经讲了，主要是props和$emit。</p><p>非父子组件通信，可以使用 Vuex。关于Vuex，前面也讲过。</p><p><br/></p><p>题干=</p><p>Vue.js中ajax请求代码应该写在组件的methods中还是vuex的actions中？</p><p>答案=</p><p>如果请求来的数据是不是要被其他组件公用，仅仅在请求的组件内使用，就放在私有的methods中。</p><p>如果被其他地方复用，这个很大几率上是需要的，如果需要，请将请求放入Vuex的action里，数据存到store中，方便复用。</p><p><br/></p>

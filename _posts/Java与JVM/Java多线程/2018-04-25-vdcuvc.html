@@ -1,0 +1,51 @@
+---
+layout: post
+publishTime: 2018-04-25
+category: Java与JVM
+tags: [Java多线程]
+---
+
+<div style="border:1px solid #3c763d; padding:0 8px; margin:0 -8px;" onclick="$('#y8zpc2').fadeToggle(100);"><p><strong>题干=</strong></p><p>谈一谈Java中调度线程池ScheduledThreadPoolExecutor的原理？</p><p>缩小一下范围：它是怎么实现定时任务的？</p></div><div id="y8zpc2" style="display:none;border:1px solid #317090; border-top-color:#aabaaa; padding:0 8px; margin:0 -4px;"><p><strong>答案=</strong></p><p>1、把任务放到线程池队列DelayedWorkQueue（延时阻塞队列）中。</p><p>首先，要明白延时队列的原理：它也是一个阻塞队列，然会按执行时间排序，最先到期的会最先取出，如果没有到期的，可以一直阻塞，直到有到期的元素。</p><p>2、队列是不会自己执行的，所以需要一个主线程，来取元素，如果取到了，就立即执行。</p><p>3、阻塞队列未到时间之所以会一直阻塞，其原理是有一个while循环一直在运行，每次循环都会去检测是否到期，到期之后就跳出循环然后返回。DelayedWorkQueue.take()的源码如下：</p><pre class="brush:java;toolbar:false">for&nbsp;(;;)&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;RunnableScheduledFuture&lt;?&gt;&nbsp;first&nbsp;=&nbsp;queue[0];&nbsp;//&nbsp;获取最近执行的一个
+&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;(first&nbsp;==&nbsp;null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;available.await();
+&nbsp;&nbsp;&nbsp;&nbsp;else&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;long&nbsp;delay&nbsp;=&nbsp;first.getDelay(NANOSECONDS);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;(delay&nbsp;&lt;=&nbsp;0)&nbsp;//&nbsp;时间到
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;finishPoll(first);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;first&nbsp;=&nbsp;null;&nbsp;//&nbsp;don&#39;t&nbsp;retain&nbsp;ref&nbsp;while&nbsp;waiting
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;(leader&nbsp;!=&nbsp;null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;available.await();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Thread&nbsp;thisThread&nbsp;=&nbsp;Thread.currentThread();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;leader&nbsp;=&nbsp;thisThread;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;available.awaitNanos(delay);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;finally&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;(leader&nbsp;==&nbsp;thisThread)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;leader&nbsp;=&nbsp;null;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+}</pre><p>代码中，最核心的部分，就是：</p><p>1. 获取队首的元素（因为是按时间排序的，所以队首的元素，就是最先执行的），</p><p>2. 获取这个元素的延迟时间，判断是否到期，如果到期就立即返回，</p><p>3. 如果没到期，就使用available.awaitNanos(delay)等待一段时间。</p><p>available的来历如下：</p><p>ReentrantLock lock = new ReentrantLock()</p><p>Condition available = lock.newCondition();</p><p>而这个available.awaitNanos(delay)的原理，其实还是while循环，源代码如下：</p><pre class="brush:java;toolbar:false">while&nbsp;(!isOnSyncQueue(node))&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;(nanosTimeout&nbsp;&lt;=&nbsp;0L)&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;transferAfterCancelledWait(node);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;(nanosTimeout&nbsp;&gt;=&nbsp;spinForTimeoutThreshold)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LockSupport.parkNanos(this,&nbsp;nanosTimeout);
+&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;((interruptMode&nbsp;=&nbsp;checkInterruptWhileWaiting(node))&nbsp;!=&nbsp;0)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;nanosTimeout&nbsp;=&nbsp;deadline&nbsp;-&nbsp;System.nanoTime();
+}</pre><p>可见其核心是每次while循环检查到期时间，到期就会退出循环，另外，每次循环会执行：LockSupport.parkNanos(this, nanosTimeout)【内部调用的是sun.misc.Unsafe.park(false, nanos)方法，其底层应该是C语言写的native方法】，经过查资料，这个和sleep是相似的。</p><p style='line-height: 1;'><br/></p><p>总结：</p><p>定时任务的根本原理：</p><p>有一个主线程，循环检查 DelayQueue队列 中是否有任务到期</p><p>——&gt; 每次循环，执行等待的是DelayQueue.take方法</p><p>&nbsp; &nbsp; &nbsp; &nbsp; ——&gt; 实际上 take方法，每次循环等待的是Condition.awaitNanos(delay)方法</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ——&gt; 实际上awaitNanos方法，每次循环等待的是LockSupport.parkNanos(this, nanosTimeout)方法，而其底层是native方法，和sleep类似。</p><p style='line-height: 1;'><br/></p><p>下面是线程执行时的堆栈信息：<br/></p><pre class="brush:java;toolbar:false">&quot;pool-1-thread-53&quot;&nbsp;#133&nbsp;prio=5&nbsp;os_prio=0&nbsp;tid=0x00007f5b8c00b800&nbsp;nid=0x7660&nbsp;waiting&nbsp;on&nbsp;condition&nbsp;[0x00007f5c72cf8000]
+&nbsp;&nbsp;&nbsp;java.lang.Thread.State:&nbsp;WAITING&nbsp;(parking)
+	at&nbsp;sun.misc.Unsafe.park(Native&nbsp;Method)
+	-&nbsp;parking&nbsp;to&nbsp;wait&nbsp;for&nbsp;&nbsp;&lt;0x00000000813e0e20&gt;&nbsp;(a&nbsp;java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject)
+	at&nbsp;java.util.concurrent.locks.LockSupport.park(LockSupport.java:175)
+	at&nbsp;java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.await(AbstractQueuedSynchronizer.java:2039)
+	at&nbsp;java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:1081)
+	at&nbsp;java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:809)
+	at&nbsp;java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1067)
+	at&nbsp;java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1127)
+	at&nbsp;java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at&nbsp;java.lang.Thread.run(Thread.java:748)</pre><p>可以看到执行轨迹：runWorker[主线程循环]--getTask[获取一个任务]--take[等待]--await[等待]--park[等待]</p><p>可见，大多数时间，是停留 在&nbsp;sun.misc.Unsafe.park 等待上面。</p><p style='line-height: 1;'><br/></p><p style='line-height: 1;'><br/></p></div>

@@ -1,0 +1,1 @@
+<p>题干=</p><p>谈一谈你对“CPU的缓存一致性协议-MESI协议”的理解？</p><p>分析=</p><p>每个CPU都有自己的二级、三级缓存，个多CPU操作缓存时如何解决缓存的一致性问题，通过MESI协议，参见：<a href="http://www.cnblogs.com/yjf512/p/5166415.html">http://www.cnblogs.com/yjf512/p/5166415.html</a></p><p><br/></p>

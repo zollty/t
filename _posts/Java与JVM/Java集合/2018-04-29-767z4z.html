@@ -1,0 +1,36 @@
+---
+layout: post
+publishTime: 2018-04-29
+category: Java与JVM
+tags: Java集合
+---
+
+<div style="border:1px solid #3c763d; padding:0 8px; margin:0 -8px;" onclick="$('#8ckxq9').fadeToggle(100);"><p><strong>题干=</strong></p><p>ArrayList循环遍历时，如何正确的删除元素？</p></div><div id="8ckxq9" style="display:none;border:1px solid #317090; border-top-color:#aabaaa; padding:0 8px; margin:0 -4px;"><p><strong>答案=</strong></p><p>错误写法1：</p><pre class="brush:java;toolbar:false">for&nbsp;(int&nbsp;i&nbsp;=&nbsp;0;&nbsp;i&nbsp;&lt;&nbsp;list.size();&nbsp;i++)&nbsp;
+{
+&nbsp;&nbsp;&nbsp;&nbsp;String&nbsp;s&nbsp;=&nbsp;list.get(i);
+&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;(s.equals(&quot;b&quot;))&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.remove(s);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+}</pre><p>错误写法2：</p><pre class="brush:java;toolbar:false">for&nbsp;(String&nbsp;s&nbsp;:&nbsp;list)
+{
+&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;(s.equals(&quot;b&quot;))&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.remove(s);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+}</pre><p>正确写法1：（倒序）</p><pre class="brush:java;toolbar:false">for&nbsp;(int&nbsp;i&nbsp;=&nbsp;list.size()&nbsp;-&nbsp;1;&nbsp;i&nbsp;&gt;=&nbsp;0;&nbsp;i--)&nbsp;
+{
+&nbsp;&nbsp;&nbsp;&nbsp;String&nbsp;s&nbsp;=&nbsp;list.get(i);
+&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;(s.equals(&quot;b&quot;))&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.remove(s);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+}</pre><p>正确写法2：（使用Iterator的remove）</p><pre class="brush:java;toolbar:false">Iterator&lt;String&gt;&nbsp;it&nbsp;=&nbsp;list.iterator();
+while&nbsp;(it.hasNext())&nbsp;
+{
+&nbsp;&nbsp;&nbsp;&nbsp;String&nbsp;s&nbsp;=&nbsp;it.next();
+&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;(s.equals(&quot;b&quot;))&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;it.remove();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+}</pre><p>具体说明参见：<a href="http://swiftlet.net/archives/743">http://swiftlet.net/archives/743</a> </p><p style='line-height: 1;'><br/></p></div>

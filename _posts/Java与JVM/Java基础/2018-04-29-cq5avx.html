@@ -1,0 +1,8 @@
+---
+layout: post
+publishTime: 2018-04-29
+category: Java与JVM
+tags: [Java基础, IO]
+---
+
+<div style="border:1px solid #3c763d; padding:0 8px; margin:0 -8px;" onclick="$('#xc6khh').fadeToggle(100);"><p><strong>题干=</strong></p><p>为了提高文件拷贝的效率，通常在IO操作的时候怎么做缓存？</p></div><div id="xc6khh" style="display:none;border:1px solid #317090; border-top-color:#aabaaa; padding:0 8px; margin:0 -4px;"><p><strong>答案=</strong></p><p>1.使用buffer数组缓存，然后将数据存入buffer，例如：while(in.read(buffer) != -1) {}；</p><p>2.使用BufferedReader和BufferedWriter。</p><p style='line-height: 1;'><br/></p></div><div style="border:1px solid #3c763d; padding:0 8px; margin:0 -8px;" onclick="$('#834kkz').fadeToggle(100);"><p><strong>题干=</strong></p><p>给定一个文件路径，如何打开文件流，读取里面的字符内容？</p></div><div id="834kkz" style="display:none;border:1px solid #317090; border-top-color:#aabaaa; padding:0 8px; margin:0 -4px;"><p><strong>答案=</strong></p><p>通过<strong>字节流----&gt;字符流----&gt;字符包装流</strong>。</p><p>&nbsp;File file = new File(“src/res/abc.txt”);//读取路径</p><p>&nbsp;FileInputStream fis = new FileInputStream(file); //字节流</p><p>&nbsp;InputStreamReader is = new InputStreamReader(fis); //字符流</p><p>&nbsp;BufferedReader br = new BufferedReader(is); // 包装流</p><p>即：new&nbsp;<strong>BufferedReader</strong>(new&nbsp;<strong>InputStreamReader</strong>(new&nbsp;<strong>FileInputStream</strong>(&quot;C:/java/hello&quot;)))&nbsp;</p><p style='line-height: 1;'><br/></p></div>

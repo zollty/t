@@ -1,0 +1,18 @@
+<p>题干=</p><p>给定一个字符串格式，</p><p>&quot;key1:2 key2:&#39;hello world&#39; key3:11 key4:6&quot;</p><p>其中，key是固定的，key的值是任意整数或者单词(如果是多个单词外面有单引号括起来)。</p><p><br/></p><p>请写程序，解析出key和对应的值。</p><p><br/></p><p>分析=</p><p>key与key之间，是以空格分割，但是value里面也可能有空格。<br/></p><p>冒号是可以用来分割的，上面的例子，分割如下：</p><p>key1</p><p>2 key2</p><p>&#39;hello world&#39; key3</p><p>11 key4</p><p>6</p><p>第一个为key，最后一个为value，中的是 value+空格+key（只需要从尾部剥离出key就行了）</p><p>从尾部剥离出key也很简单，只需要找出最后一个空格就行了。<br/></p><p><br/></p><p>答案=</p><pre class="brush:java;toolbar:false">public&nbsp;static&nbsp;void&nbsp;parseKeyValue()&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;String&nbsp;str&nbsp;=&nbsp;&quot;key1:2&nbsp;key2:&#39;hello&nbsp;world&#39;&nbsp;key3:11&nbsp;key4:6&quot;;
+
+&nbsp;&nbsp;&nbsp;&nbsp;String[]&nbsp;arr&nbsp;=&nbsp;StringSplitUtils.split(str,&nbsp;&#39;:&#39;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;String[]&nbsp;keys&nbsp;=&nbsp;new&nbsp;String[arr.length&nbsp;-&nbsp;1];
+&nbsp;&nbsp;&nbsp;&nbsp;String[]&nbsp;values&nbsp;=&nbsp;new&nbsp;String[arr.length&nbsp;-&nbsp;1];
+&nbsp;&nbsp;&nbsp;&nbsp;keys[0]&nbsp;=&nbsp;arr[0];
+&nbsp;&nbsp;&nbsp;&nbsp;values[values.length&nbsp;-&nbsp;1]&nbsp;=&nbsp;arr[arr.length&nbsp;-&nbsp;1];
+&nbsp;&nbsp;&nbsp;&nbsp;for&nbsp;(int&nbsp;i&nbsp;=&nbsp;1;&nbsp;i&nbsp;&lt;&nbsp;arr.length&nbsp;-&nbsp;1;&nbsp;i++)&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;values[i&nbsp;-&nbsp;1]&nbsp;=&nbsp;StringUtils.beforeLastIndex(arr[i],&nbsp;&quot;&nbsp;&quot;).trim();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;keys[i]&nbsp;=&nbsp;StringUtils.afterLastIndex(arr[i],&nbsp;&quot;&nbsp;&quot;);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;for&nbsp;(int&nbsp;i&nbsp;=&nbsp;0;&nbsp;i&nbsp;&lt;&nbsp;keys.length;&nbsp;i++)&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(keys[i]&nbsp;+&nbsp;&quot;:&quot;&nbsp;+&nbsp;values[i]);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+}</pre><p><br/></p><p><br/></p><p><br/></p>

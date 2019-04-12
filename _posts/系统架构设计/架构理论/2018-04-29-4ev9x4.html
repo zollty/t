@@ -1,0 +1,8 @@
+---
+layout: post
+publishTime: 2018-04-29
+category: 系统架构设计
+tags: 架构理论
+---
+
+<div style="border:1px solid #3c763d; padding:0 8px; margin:0 -8px;" onclick="$('#kxk377').fadeToggle(100);"><p><strong>题干=</strong></p><p>什么是集群的脑裂（split brain）现象，如何避免？</p><p>能不能说一下ZooKeeper的脑裂问题以及如何解决？</p></div><div id="kxk377" style="display:none;border:1px solid #317090; border-top-color:#aabaaa; padding:0 8px; margin:0 -4px;"><p><strong>答案=</strong></p><p>关于脑裂，ElasticSearch 文档对此有一个简单的描述：</p><p>To explain, imagine that you have a cluster consisting of two master-eligible(资格) nodes. A network failure breaks communication between these two nodes. Each node sees one master-eligible node… itself. With minimum_master_nodes set to the default of 1, this is sufficient(满足) to form a cluster. Each node elects itself as the new master (thinking that the other master-eligible node has died) and the result is two clusters, or a split brain.</p><p>To prevent data loss, we can make each master-eligible node knows the minimum number of master-eligible nodes that must be visible in order to form a cluster.</p><p>比如Zookeeper脑裂问题，需要外部的监控，例如Taokeeper。</p><p>参见：<a href="http://blog.csdn.net/u010185262/article/details/49910301">http://blog.csdn.net/u010185262/article/details/49910301</a></p><p>再比如 ElasticSearch 专门为此设置了一个参数：<a href="https://www.elastic.co/guide/en/elasticsearch/reference/6.1/modules-node.html#split-brain" target="_blank">Avoiding split brain with minimum_master_nodesedit</a></p><p style='line-height: 1;'><br/></p></div>

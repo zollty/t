@@ -1,0 +1,8 @@
+---
+layout: post
+publishTime: 2018-04-28
+category: 系统架构设计
+tags: 架构理论
+---
+
+<div style="border:1px solid #3c763d; padding:0 8px; margin:0 -8px;" onclick="$('#5zkk8k').fadeToggle(100);"><p><strong>题干=</strong></p><p>什么是ACID、CAP和BASE？</p></div><div id="5zkk8k" style="display:none;border:1px solid #317090; border-top-color:#aabaaa; padding:0 8px; margin:0 -4px;"><p><strong>答案=</strong></p><p>ACID即数据库事务的四大特性：</p><ul class=" list-paddingleft-2" style="list-style-type: disc;"><li><p>原子性（Atomicity）</p></li><li><p>一致性（Consistency）</p></li><li><p>隔离性（Isolation）</p></li><li><p>持久性（Durability）</p></li></ul><p style='line-height: 1;'><br/></p><p>CAP即：</p><ul class=" list-paddingleft-2" style="list-style-type: disc;"><li><p>Consistency(一致性)</p></li><li><p>Availability(可用性)</p></li><li><p>Partition tolerance(分区容错性，也即可靠性)</p></li></ul><p>ACP定理：任何分布式系统只可同时满足二点，没法三者兼顾。</p><p style='line-height: 1;'><br/></p><p>BASE：也就是常说的“最终一致性”模型，通过牺牲高一致性，来获得高可用性或可靠性，即：</p><ul class=" list-paddingleft-2" style="list-style-type: disc;"><li><p>Basically Available 基本可用。</p></li><li><p>Soft state 软状态。状态可以有一段时间不同步，异步。&nbsp;</p></li><li><p>Eventually consistent 最终一致。</p></li></ul><p style='line-height: 1;'><br/></p><p style='line-height: 1;'><br/></p></div>

@@ -1,0 +1,8 @@
+---
+layout: post
+publishTime: 2018-05-14
+category: Java与JVM
+tags: [JVM原理及结构, ClassLoader]
+---
+
+<div style="border:1px solid #3c763d; padding:0 8px; margin:0 -8px;" onclick="$('#xyax9u').fadeToggle(100);"><p><strong>题干=</strong></p><p>什么是类加载的双亲委派模式，可以打破这种模式吗？</p></div><div id="xyax9u" style="display:none;border:1px solid #317090; border-top-color:#aabaaa; padding:0 8px; margin:0 -4px;"><p><strong>答案=</strong></p><p>双亲委派模式：如果一个类加载器收到了&nbsp;类加载的请求，那么它首先不会自己去尝试加载这个类，而是将这个请求委派给自己的父加载器去完成，每一层的加载器都是，因此任何一个加载请求都会自动传送到顶层的启动类加载器中，只有当自己的父加载器反馈无法完成这个加载请求的时候，子加载器才会去尝试自己去加载。</p><p>可以打破这种模式，Web服务器Tomcat、WebSphere等都自定义了自己的WebAppClassLoader（没有继承自AppClassLoader），以便在同一个服务器下运行的多个APP代码、jar包能相互隔离，APP1无法调用到APP2的代码。</p><p style='line-height: 1;'><br/></p></div>
