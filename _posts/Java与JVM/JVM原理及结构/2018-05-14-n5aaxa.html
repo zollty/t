@@ -1,8 +1,0 @@
----
-layout: post
-publishTime: 2018-05-14
-category: Java与JVM
-tags: [JVM原理及结构]
----
-
-<div style="border:1px solid #3c763d; padding:0 8px; margin:0 -8px;" onclick="$('#vcyev8').fadeToggle(100);"><p><strong>题干=</strong></p><p>JVM栈由哪几个部分组成？每个部分的作用是什么？</p></div><div id="vcyev8" style="display:none;border:1px solid #317090; border-top-color:#aabaaa; padding:0 8px; margin:0 -4px;"><p><strong>答案=</strong></p><p>JVM栈，由如下5个部分组成：</p><p>1) 方法区</p><p>2)&nbsp;堆</p><p>3)&nbsp;虚拟机栈（Java Stack）---包含很多 “栈帧（Stack Frame）”</p><p>4)&nbsp;本地方法栈</p><p>5)&nbsp;程序计数器（Program Counter Register）</p><p style='line-height: 1;'><br/></p><p>如下图所示：</p><p><img src="{{site.assets_url}}img/20181127/1543311151403010280.png" alt="1543311151403010280.png"/></p><p style='line-height: 1;'><br/></p><p><strong>方法区（Method Area）</strong></p><p>&nbsp; 用于存储已被虚拟机加载的类型信息、常量、静态变量、即时编译后的代码等信息。</p><p>&nbsp; 方法区是线程间共享的，当两个线程同时需要加载一个类型时，只有一个类会请求ClassLoader加载，另一个线程会等待。</p><p style='line-height: 1;'><br/></p><p><strong>堆（Heap）</strong></p><p>&nbsp;&nbsp;虚拟机中用于存放对象与数组实例的地方，垃圾回收的主要区域就是这里（还可能有方法区）。</p><p>&nbsp;&nbsp;如果垃圾收集算法采用按代收集（目前大都是这样），这部分还可以细分为<span style="color: rgb(192, 0, 0);">新生代和老年代</span>。</p><p>&nbsp; 新生代又可能分为<span style="color: rgb(192, 0, 0);">Eden区，From Survivor区和To Survivor区</span>，主要是为了垃圾回收。</p><p>&nbsp;&nbsp;所有的线程共享Java堆，在这里还可以划分线程<span style="color: rgb(192, 0, 0);">私有的缓冲区</span>（Thread Local Allocation Buffer，TLAB）。</p><p>&nbsp;&nbsp;Java堆只要求逻辑上是连续的，在物理空间上可以不连续。</p><p>堆的分区图如下：</p><p><img src="{{site.assets_url}}img/20181127/1543311151403041208.gif" alt="1543311151403041208.gif"/></p><p style='line-height: 1;'><br/></p><p style='line-height: 1;'><br/></p></div>
