@@ -1,9 +1,18 @@
 [
-	["哲理"],
-	["自我提高"],
-	["思考"],
-	["生活"],
-	["工作"],
-    ["研发管理"],
-	["我是程序员"]
+	["Java核心及源码","javacore"],
+	["Java框架和组件","javalib"],
+	["Java线程及并发","javathread"],
+	["JVM及工具","jvm"],
+	["Kubernetes及容器","k8s"],
+    ["Linux","linux"],
+	["Spring专题","spring"],
+    ["计算机原理与基础","theory"],
+	["技术工具","tools"],
+	["其他语言和技术","others"],
+	["前端技术","frontend"],
+    ["数据库","db"],
+    ["算法与设计","algo"],
+	["网络","network"],
+	["系统架构设计","archi"],
+    ["中间件","middle"]
 ]

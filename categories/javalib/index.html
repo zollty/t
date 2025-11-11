@@ -1,0 +1,12 @@
+---
+title: 目录
+layout: page
+---
+
+	{% assign this_word = 'Java框架和组件' %}
+	<h3 id="{{ this_word | cgi_escape | remove: "%" }}">{{ this_word }}</h3>
+	{% for post in site.categories[this_word] %}
+	
+	  {% include post-card.html %}
+	
+	{% endfor %}

@@ -8,13 +8,14 @@ future: true
 # Conversion # Build settings
 lsi: true # 在github中是无效的
 highlighter: pygments
-markdown: rdiscount
+markdown: kramdown # rdiscount
 redcarpet:
     extensions: ["fenced_code_blocks", "tables", "highlight", "strikethrough"]
 
 # Serving
 baseurl: /t # does not include hostname
 # http://ires.qiniudn.com/
+cdn_base_url:  http://s.h230.cn
 assets_url: http://s.h230.cn/my/
 cdn_lib_url: http://s.h230.cn/lib/
 
@@ -63,3 +64,5 @@ analytics:
     baidu:
         siteid: b50955356fe8e228a2474f35de44053f        # 百度统计 js 代码后的字符串
 
+plugins:
+  - jekyll-paginate

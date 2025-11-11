@@ -1,27 +1,23 @@
 ---
 title: 目录
-layout: page
+layout: page-s
 ---
 
 <div class="table-responsive"><table style="margin-top:15px;margin-bottom: 0;">
 	  {% for tag in site.categories %}
+{% assign f = 'unknown' %}
+{% for cat in site.data.cats %}
+{% if tag[0] == cat[0] %}
+{% assign f = cat[1] %}
+{% break %}
+{% endif %}
+{% endfor %}
 	  {% assign mk = forloop.index0 | modulo:2 %}
 	  {% if mk == 0 %}<tr>{% endif %}
 	  <td>
-		<a href="{{ site.baseurl }}/categories/#{{ tag[0] | cgi_escape | remove: "%" }}">{{ tag[0] }}</a></td>
+		<a href="{{ site.baseurl }}/categories/{{ f }}">{{ tag[0] }}</a></td>
 		<td style="color:#65848f;">{{ tag[1].size }}
 	  </td>
 	  {% if mk == 1 %}</tr>
 	  {% elsif forloop.last %}</tr>{% endif %}{% endfor %}
 	</table></div>
-{% capture site_tags %}{% for tag in site.categories %}{{ tag | first }}{% unless forloop.last %},{% endunless %}{% endfor %}{% endcapture %}
-{% assign tag_words = site_tags | split:',' | sort %}
-{% for item in (0..site.categories.size) %}{% unless forloop.last %}
-	{% capture this_word %}{{ tag_words[item] | strip_newlines }}{% endcapture %}
-	<h3 id="{{ this_word | cgi_escape | remove: "%" }}">{{ this_word }}</h3>
-	{% for post in site.categories[this_word] %}
-	
-	  {% include post-card.html %}
-	
-	{% endfor %}
-{% endunless %}{% endfor %}
