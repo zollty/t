@@ -1,18 +1,47 @@
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="renderer" content="webkit|ie-stand">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="author" content="{% if site.author.name %}{{ site.author.name }}{% endif %}">
-  <title>{% if page.title %}{{ page.title }} - {% endif %}{{ site.title }}</title>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="renderer" content="webkit|ie-stand" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta
+    name="author"
+    content="{% if site.author.name %}{{ site.author.name }}{% endif %}"
+  />
+  <title>
+    {% if page.title %}{{ page.title }} - {% endif %}{{ site.title }}
+  </title>
   <link rel="icon" type="image/x-icon" href="{{ site.favicon }}" />
-  <link rel="canonical" href="{{ site.url }}{{ page.url | replace:'index.html,'' }}">
-  <link rel="stylesheet" href="http://cdn.staticfile.org/twitter-bootstrap/3.3.0/css/bootstrap.min.css">
-  <link rel="stylesheet" href="http://cdn.staticfile.org/font-awesome/4.2.0/css/font-awesome.min.css">
-  <link rel="stylesheet" href="{{ site.baseurl }}{{ site.assets_path }}/css/style.css" media="all">
+  <link
+    rel="canonical"
+    href="{{ site.url }}{{ page.url | replace:'index.html,'' }}"
+  />
+  <link
+    rel="stylesheet"
+    href="https://cdn.staticfile.org/twitter-bootstrap/3.3.0/css/bootstrap.min.css"
+  />
+  <link
+    rel="stylesheet"
+    href="https://cdn.staticfile.org/font-awesome/4.2.0/css/font-awesome.min.css"
+  />
+  <link
+    rel="stylesheet"
+    href="{{ site.baseurl }}{{ site.assets_path }}/css/style.css"
+    media="all"
+  />
   <!-- atom & rss feed -->
-  <link href="{{ site.baseurl }}{{ site.rss_path }}" type="application/rss+xml" rel="alternate" title="{{ site.title }} RSS Feed">
-  <link id="atom" href="{{ site.baseurl }}{{ site.atom_path }}" type="application/atom+xml" rel="alternate" title="{{ site.title }} ATOM Feed">
+  <link
+    href="{{ site.baseurl }}{{ site.rss_path }}"
+    type="application/rss+xml"
+    rel="alternate"
+    title="{{ site.title }} RSS Feed"
+  />
+  <link
+    id="atom"
+    href="{{ site.baseurl }}{{ site.atom_path }}"
+    type="application/atom+xml"
+    rel="alternate"
+    title="{{ site.title }} ATOM Feed"
+  />
   <!-- fav and touch icons  -->
   <!-- Update these with your own images
   <link rel="shortcut icon" href="images/favicon.ico">
@@ -22,7 +51,7 @@
   -->
   <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
   <!--[if lt IE 9]>
-    <script src="http://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
-    <script src="http://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
   <![endif]-->
 </head>
