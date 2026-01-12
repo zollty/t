@@ -17,7 +17,7 @@ baseurl: /t # does not include hostname
 # http://ires.qiniudn.com/
 cdn_base_url: https://s.h230.cn
 assets_url: https://s.h230.cn/my/
-cdn_lib_url: https://s.h230.cn/lib/
+cdn_lib_url: https://s.h230.cn/lib
 
 favicon: https://s.h230.cn/my/img/favicon.ico
 
